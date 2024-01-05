@@ -50,3 +50,6 @@ class Dice():
     
     def __int__(self):
         return self.value
+    
+    def __call__(self):
+        return self.value
