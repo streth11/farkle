@@ -1,5 +1,5 @@
 from hand import Hand
-from scoring import diceScore  
+from scoring import diceScore, Score
 
 if __name__ == "__main__":
     h = Hand()
@@ -15,10 +15,7 @@ if __name__ == "__main__":
     print(h.n_fixed)
 
 
-    diceScore(Hand([3, 3, 3, 3, 3, 2]))
-        
-    # dice = DiceRoll([2, 5, 5, 1, 1, 1])
-    # print(dice.count_list)
-    # print(dice.count_of_counts)
+    s = Score.dice(Hand([3, 3, 3, 3, 3, 1]))
+    print(s)
 
 

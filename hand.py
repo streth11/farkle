@@ -34,7 +34,7 @@ class Hand():
 
     @property
     def count_dict(self):
-        return {i: (self.dice_array == i).sum() for i in range(1,7)}
+        return {f"{i}": (self.dice_array == i).sum() for i in range(1,7)}
 
     @property
     def count_of_counts(self):
