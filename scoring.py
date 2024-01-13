@@ -3,9 +3,14 @@ import numpy as np
 from hand import Hand
 
 class ScoreElement():
-    def __init__(self, value, idxs = np.zeros(6)):
+    def __init__(self, value, idxs = np.array(-1)):
         self.value = value
         self.idxs = idxs
+
+    def __bool__(self):
+        if self.value > 0:
+            return True
+        return False
 
 class Score():
     def __init__(self, big=ScoreElement(0), triplet=ScoreElement(0),
@@ -18,11 +23,18 @@ class Score():
     @property
     def score_list(self):
         return [self.big.value, self.triplet.value, self.ones.value, self.fives.value]
-    
+
     @property
     def total(self):
         return sum(self.score_list)
     
+    def potentialScoringDice(self):
+        scoring_arr = np.zeros(6)
+        for d in range(0,6):
+            if np.isin(d,self.big.idxs) or np.isin(d,self.triplet.idxs) or np.isin(d,self.fives.idxs) or np.isin(d,self.ones.idxs):
+                scoring_arr[d] = True
+        return scoring_arr
+
     @staticmethod
     def dice(Hand: Hand):
         return diceScore(Hand)
@@ -38,8 +50,9 @@ def diceScore(dice: Hand):
     score = Score()
 
     score.big = bigDiceScore(dice)
-    score.triplet = tripletScore(dice)
-                 
+    if not score.big:
+        score.triplet = tripletScore(dice)
+        
     score.ones = singleScore(dice, 1)
     score.fives = singleScore(dice, 5)
 
@@ -73,24 +86,19 @@ def bigDiceScore(dice: Hand):
         # scores that use all 6 dice
         if all(dice.count_list == 1):
             # straight 1-6
-            # dice.fix(range(0,6))
-            return ScoreElement(1500,range(0,6))
+            return ScoreElement(1500,np.arange(0,6))
         if dice.count_of_counts["3 of a kinds"] == 2:
             # 2 triplets
-            # dice.fix(range(0,6))
-            return ScoreElement(2500,range(0,6))
+            return ScoreElement(2500,np.arange(0,6))
         if dice.count_of_counts["2 of a kinds"] == 3:
             # 3 pairs
-            # dice.fix(range(0,6))
-            return ScoreElement(1501,range(0,6))
+            return ScoreElement(1501,np.arange(0,6))
         if dice.count_of_counts["4 of a kinds"] == 1 and dice.count_of_counts["2 of a kinds"] == 1:
             # 4 of a kind and a pair (full house)
-            # dice.fix(range(0,6))
-            return ScoreElement(1502,range(0,6))
+            return ScoreElement(1502,np.arange(0,6))
         if dice.count_of_counts["6 of a kinds"] == 1:
             # 6 of a kind
-            # dice.fix(range(0,6))
-            return ScoreElement(3000,range(0,6))
+            return ScoreElement(3000,np.arange(0,6))
 
     if dice.n_fixed <= 1:
         if dice.count_of_counts["5 of a kinds"] == 1:

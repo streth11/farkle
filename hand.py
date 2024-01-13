@@ -12,7 +12,7 @@ class Hand():
     
     def roll(self):
         for d in self.dice_list:
-            if not d.is_fixed:
+            if not d.is_fixed: # TODO: check and remove
                 d.roll()
         return self
 
