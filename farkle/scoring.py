@@ -1,6 +1,6 @@
 import numpy as np
 
-from src.hand import Hand
+from farkle.hand import Hand
 
 class ScoreElement():
     def __init__(self, value, count = 0, idxs = np.array(-1)):

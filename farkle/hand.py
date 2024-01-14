@@ -1,6 +1,6 @@
 import numpy as np
 
-from src.dice import Dice
+from farkle.dice import Dice
 
 class Hand():
     def __init__(self, init_values=[]):
