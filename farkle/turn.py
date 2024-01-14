@@ -13,8 +13,9 @@ class Turn():
     def totalScore(self):
         return sum(self.score)
     
-    def play(self):
-        # self.hand.roll()
+    def play(self, noroll=False):
+        if not noroll:
+            self.hand.roll()
         self.hand.sortDice()
         self.roll_score.calcualteScore(self.hand)
         saved_score = self.executeStrategy()
