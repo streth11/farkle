@@ -1,11 +1,12 @@
 import numpy as np
 
-from dice import Dice
+from src.dice import Dice
 
 class Hand():
     def __init__(self, init_values=[]):
         self.dice_list = [Dice(init_values[i]) if i < len(init_values) else Dice(0) for i in range(0,6)]
-
+        self.keep_and_end = False
+        
     @property
     def dice_array(self):
         return np.array(self.dice_list)
@@ -25,6 +26,7 @@ class Hand():
         self.dice_list.sort(key=lambda d: d.value)
         return self
 
+    @property
     def values(self):
         return [d.value for d in self.dice_list]
     

@@ -1,6 +1,7 @@
-from hand import Hand
-from scoring import diceScore, Score
+import numpy as np
 
+from src.hand import Hand
+from src.scoring import diceScore, Score
 
 class Strategy():
     hand = None
@@ -14,10 +15,19 @@ class Strategy():
 
     def onNoScore(self):
         self.hand.fix(range(0,6))
+        self.hand.keep_and_end = True
+        return 0
+    
+    def onFarkle(self):
+        self.onNoScore()
+        self.hand.keep_and_end = True
+        self.roll_score.farkle()
         return 0
     
     def onBigScore(self):
-        self.hand.fix(self.roll_score.big.idxs)           
+        self.hand.fix(self.roll_score.big.idxs)
+        if self.roll_score.big.count == 4 or self.roll_score.big.count == 5:
+            self.hand.keep_and_end = True       
         return self.roll_score.big.value
     
     def onTripletScore(self):
@@ -25,13 +35,22 @@ class Strategy():
         return self.roll_score.triplet.value
     
     def onSingleScore(self):
-        return 2
+        # print(self.roll_score.potentialScoringDice())
+        ones_score = 0
+        fives_score = 0
+        if self.roll_score.ones:
+            ones_score = self.on1Score()
+        if self.roll_score.fives:
+            fives_score = self.on5Score()
+        return ones_score + fives_score
     
     def on5Score(self):
-        return 5
+        self.hand.fix(self.roll_score.fives.idxs)
+        return self.roll_score.fives.value
     
     def on1Score(self):
-        return 1
+        self.hand.fix(self.roll_score.fives.idxs)
+        return self.roll_score.fives.value
 
 
 class Turn():
@@ -48,51 +67,56 @@ class Turn():
     def play(self):
         # self.hand.roll()
         self.hand.sortDice()
-        self.roll_score = Score.dice(self.hand)
-        self.executeStrategy()
-        return self
+        self.roll_score.calcualteScore(self.hand)
+        saved_score = self.executeStrategy()
+
+        self.score.append(saved_score)
+
+        if self.hand.keep_and_end:
+            print(f"Turn ended, score = {sum(self.score)}")
+            return sum(self.score)
+        
+        self.play()
 
     def executeStrategy(self):
+        score = 0
         self.__strategy.update_score(self.hand, self.roll_score)
         prev_fixed = self.hand.n_fixed
 
         if self.roll_score.total == 0:
-            score = self.__strategy.onNoScore()
-        if self.roll_score.big.value:
-            score = self.__strategy.onBigScore()
+            score += self.__strategy.onNoScore()
 
-        print(self.roll_score.potentialScoringDice())
+        if self.roll_score.big:
+            score += self.__strategy.onBigScore()
 
-        if self.hand.n_fixed == 6:
-            self.score.append(score)
-            if score == 0:
-                return self
-            # hot dice
-            # self.play()
+        if self.roll_score.triplet:
+            score += self.__strategy.onTripletScore()
 
-        if self.roll_score.triplet.value:
-            score = self.__strategy.onTripletScore()
-
+        if self.roll_score.ones or self.roll_score.fives:
+            score += self.__strategy.onSingleScore()
+            
         # farkle
         new_fixed = self.hand.n_fixed
         if prev_fixed == new_fixed:
             score = 0
 
-        return self
+        if self.hand.n_fixed == 6:
+            if score == 0:
+                return 0
+            #hot dice
+            pass
+
+        return score
 
 
 if __name__ == "__main__":
-    h = Hand([3,3,3,3,3,5])
+
+    np.random.seed(42)
+
+    h = Hand([3,3,3,3,3,4])
     # print(h)
-    # h.roll()
-    # print(h.count_dict)
-    # print(h.count_of_counts)
-    # print(h.fixes)
-    # print(h.n_fixed)
 
     t = Turn(h)
     t.play()
 
     print(h)
-
-    x=1
