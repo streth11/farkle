@@ -14,7 +14,7 @@ class Turn():
     def totalScore(self):
         return sum(self.score)
     
-    def play(self, noroll=False, hot_dice_hand=[], roll_limit=10):
+    def play(self, noroll=False, hot_dice_hand=[], roll_limit=10, future_noroll=False):
         if not noroll:
             # roll dice
             self.hand.roll()
@@ -35,9 +35,10 @@ class Turn():
         self.score.append(saved_score)
         
         if self.hand.keep_and_end:
+            print(self.hand)
             print(f"Turn ended, score = {sum(self.score)}")
             return sum(self.score)
-        self.play(noroll,hot_dice_hand,roll_limit)
+        self.play(noroll=future_noroll, hot_dice_hand=hot_dice_hand, roll_limit=roll_limit)
 
     def executeStrategy(self):
         score = 0
@@ -61,7 +62,7 @@ class Turn():
 
         if self.hand.n_fixed == 6 and score > 0:
             # hot dice!
-            print(f"Hot Dice!, current score = {score}")
+            print(f"Hot Dice!, current score = {sum(self.score)+score}")
             self.hand.keep_and_end = False
             self.hand.unfix(range(0,6))
 

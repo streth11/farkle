@@ -39,7 +39,17 @@ class Hand():
     @property
     def values(self):
         return [d.value for d in self.dice_list]
-    
+
+    @property
+    def avaliable_count_list(self):
+        return np.array([sum([
+            1 for d in range(0,6) if self.dice_array[d] == i and not self.dice_array[d].is_fixed
+            ]) for i in range(1,7)])
+
+    @property
+    def avaliable_count_of_counts(self):
+        return {f"{i} of a kinds": (self.avaliable_count_list == i).sum() for i in range(0,7)}
+
     @property
     def count_list(self):
         return np.array([(self.dice_array == i).sum() for i in range(1,7)])
