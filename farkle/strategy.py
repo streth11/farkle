@@ -16,12 +16,6 @@ class Strategy():
         self.hand.keep_and_end = True
         return 0
     
-    def onFarkle(self):
-        self.onNoScore()
-        self.hand.keep_and_end = True
-        self.roll_score.farkle()
-        return 0
-    
     def onBigScore(self):
         self.hand.fix(self.roll_score.big.idxs)
         if self.roll_score.big.count == 4 or self.roll_score.big.count == 5:

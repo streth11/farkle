@@ -70,72 +70,72 @@ class Score():
         return self.score_list
 
 
-def diceScore(dice: Hand):
+def diceScore(hand: Hand):
     score = Score()
 
-    score.big = bigDiceScore(dice)
+    score.big = bigDiceScore(hand)
     if not score.big:
-        score.triplet = tripletScore(dice)
+        score.triplet = tripletScore(hand)
         
-    score.ones = singleScore(dice, 1)
-    score.fives = singleScore(dice, 5)
+    score.ones = singleScore(hand, 1)
+    score.fives = singleScore(hand, 5)
 
     return score
 
-def singleScore(dice: Hand, dice_number):
+def singleScore(hand: Hand, dice_number):
     # single scores
     DICE_SCORES = [100,0,0,0,50,0]
-    dice_count = dice.count_list[dice_number-1]
+    dice_count = hand.count_list[dice_number-1]
     score_value = dice_count * DICE_SCORES[dice_number-1]
-    scoring_idx = np.where(dice.dice_array == dice_number)[0]
+    scoring_idx = np.where(hand.dice_array == dice_number)[0]
     return ScoreElement(score_value,dice_count,scoring_idx)
 
 
-def tripletScore(dice: Hand):
+def tripletScore(hand: Hand):
 
     DICE3_SCORES = [1000,200,300,400,500,600]
-    if dice.n_fixed <= 3:
-        if dice.count_of_counts["3 of a kinds"] == 1:
+    if hand.n_fixed <= 3:
+        if hand.count_of_counts["3 of a kinds"] == 1:
             # 3 of a kind
-            dice_num_3kind_idx = (np.where(dice.count_list == 3))[0][0]+1
+            dice_num_3kind_idx = (np.where(hand.count_list == 3))[0][0]+1
             score_value = DICE3_SCORES[dice_num_3kind_idx]
-            scoring_idx = np.where(dice.dice_array == dice_num_3kind_idx)[0]
+            scoring_idx = np.where(hand.dice_array == dice_num_3kind_idx)[0]
             return ScoreElement(score_value,3,scoring_idx)
     return ScoreElement(0)
 
 
-def bigDiceScore(dice: Hand):
+def bigDiceScore(hand: Hand):
 
-    if dice.n_fixed == 0:
-        # scores that use all 6 dice
-        if all(dice.count_list == 1):
+    if hand.n_fixed == 0:
+        # scores that use all 6 hand
+        if all(hand.count_list == 1):
             # straight 1-6
             return ScoreElement(1500,6,np.arange(0,6))
-        if dice.count_of_counts["3 of a kinds"] == 2:
+        if hand.count_of_counts["3 of a kinds"] == 2:
             # 2 triplets
             return ScoreElement(2500,6,np.arange(0,6))
-        if dice.count_of_counts["2 of a kinds"] == 3:
+        if hand.count_of_counts["2 of a kinds"] == 3:
             # 3 pairs
             return ScoreElement(1501,6,np.arange(0,6))
-        if dice.count_of_counts["4 of a kinds"] == 1 and dice.count_of_counts["2 of a kinds"] == 1:
+        if hand.count_of_counts["4 of a kinds"] == 1 and hand.count_of_counts["2 of a kinds"] == 1:
             # 4 of a kind and a pair (full house)
             return ScoreElement(1502,6,np.arange(0,6))
-        if dice.count_of_counts["6 of a kinds"] == 1:
+        if hand.count_of_counts["6 of a kinds"] == 1:
             # 6 of a kind
             return ScoreElement(3000,6,np.arange(0,6))
 
-    if dice.n_fixed <= 1:
-        if dice.count_of_counts["5 of a kinds"] == 1:
+    if hand.n_fixed <= 1:
+        if hand.count_of_counts["5 of a kinds"] == 1:
             # 5 of a kind
-            dice_num_5kind = (np.where(dice.count_list == 5))[0][0]+1
-            scoring_idx = np.where(dice.dice_array == dice_num_5kind)[0]
+            dice_num_5kind = (np.where(hand.count_list == 5))[0][0]+1
+            scoring_idx = np.where(hand.dice_array == dice_num_5kind)[0]
             return ScoreElement(2000,5,scoring_idx)
 
-    if dice.n_fixed <= 2:
-        if dice.count_of_counts["4 of a kinds"] == 1:
+    if hand.n_fixed <= 2:
+        if hand.count_of_counts["4 of a kinds"] == 1:
             # 4 of a kind
-            dice_num_4kind = (np.where(dice.count_list == 4))[0][0]+1
-            scoring_idx = np.where(dice.dice_array == dice_num_4kind)[0]
+            dice_num_4kind = (np.where(hand.count_list == 4))[0][0]+1
+            scoring_idx = np.where(hand.dice_array == dice_num_4kind)[0]
             return ScoreElement(1500,4,scoring_idx)
         
     return ScoreElement(0)

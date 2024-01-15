@@ -8,30 +8,40 @@ class Turn():
         self.__strategy = strategy
         self.roll_score = Score()
         self.score = []
+        self.num_rolls = 0
     
     @property
     def totalScore(self):
         return sum(self.score)
     
-    def play(self, noroll=False):
+    def play(self, noroll=False, hot_dice_hand=[], roll_limit=10):
         if not noroll:
+            # roll dice
             self.hand.roll()
+        
+        # testing utilities
+        if self.num_rolls >= 1 and hot_dice_hand:
+            self.hand.setValues(range(0,len(hot_dice_hand)),hot_dice_hand)
+        if self.num_rolls >= roll_limit:
+            print(f"Roll Limit reached, score = {sum(self.score)}")
+            return sum(self.score)
+        
+        self.num_rolls += 1
         self.hand.sortDice()
+        print(self.hand)
         self.roll_score.calcualteScore(self.hand)
         saved_score = self.executeStrategy()
 
         self.score.append(saved_score)
-
+        
         if self.hand.keep_and_end:
             print(f"Turn ended, score = {sum(self.score)}")
             return sum(self.score)
-        
-        self.play()
+        self.play(noroll,hot_dice_hand,roll_limit)
 
     def executeStrategy(self):
         score = 0
         self.__strategy.update_score(self.hand, self.roll_score)
-        prev_fixed = self.hand.n_fixed
 
         if self.roll_score.total == 0:
             score += self.__strategy.onNoScore()
@@ -46,14 +56,13 @@ class Turn():
             score += self.__strategy.onSingleScore()
             
         # farkle
-        new_fixed = self.hand.n_fixed
-        if prev_fixed == new_fixed:
-            score = 0
+        if score == 0:
+            self.score = []
 
-        if self.hand.n_fixed == 6:
-            if score == 0:
-                return 0
-            #hot dice
-            pass
+        if self.hand.n_fixed == 6 and score > 0:
+            # hot dice!
+            print(f"Hot Dice!, current score = {score}")
+            self.hand.keep_and_end = False
+            self.hand.unfix(range(0,6))
 
         return score

@@ -22,6 +22,16 @@ class Hand():
             self.dice_list[idx].fix()
         return self
     
+    def unfix(self,idxs):
+        for idx in idxs:
+            self.dice_list[idx].unfix()
+        return self
+    
+    def setValues(self,idxs,values):
+        for idx in idxs:
+            self.dice_list[idx].set_value(values[idx]) 
+        return self
+
     def sortDice(self):
         self.dice_list.sort(key=lambda d: d.value)
         return self
