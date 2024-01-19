@@ -48,12 +48,13 @@ class Strategy():
     def onSingleScore(self):
         ones_score = 0
         fives_score = 0
+        prev_fixed = self.hand.n_fixed
         if self.roll_score.ones:
             ones_score = self.on1Score()
         if self.roll_score.fives:
             fives_score = self.on5Score()
 
-        if self.hand.n_fixed + self.roll_score.ones.count + self.roll_score.fives.count >= 5:
+        if prev_fixed + self.roll_score.ones.count + self.roll_score.fives.count >= 5:
             self.hand.keep_and_end = True
 
         return ones_score + fives_score
