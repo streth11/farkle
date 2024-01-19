@@ -73,6 +73,12 @@ def test_count_list():
     h.fix(range(0,6))
     assert all(h.count_list == [2,0,2,0,1,1])
 
+def test_count_dict():
+    h = Hand([1,1,3,3,5,6])
+    count_list = [2,0,2,0,1,1]
+    test_dict = {f"{i}": count_list[i-1] for i in range(1,7)}
+    assert h.count_dict == test_dict
+
 def test_avaliable_count_list():
     h = Hand([1,2,3,4,5,6])
     assert all(h.avaliable_count_list == [1,1,1,1,1,1])

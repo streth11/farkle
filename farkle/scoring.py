@@ -6,6 +6,8 @@ class ScoreElement():
     def __init__(self, value, count = 0, idxs = np.array(-1), dice_value = -1):
         self.value = value
         self.idxs = idxs
+        if isinstance(idxs,list):
+            self.idxs = np.asarray(idxs)
         self.count = count
         self.dice_value = dice_value
 
@@ -19,8 +21,23 @@ class ScoreElement():
         if self.value > 0:
             return True
         return False
-
     
+    @staticmethod
+    def compare(first,second):
+        if type(first) != ScoreElement or type(second) != ScoreElement:
+            raise TypeError
+
+        value_check = first.value == second.value
+        count_check = first.count == second.count
+        dice_value_check = first.dice_value == second.dice_value
+        if len(first.idxs) == len(second.idxs):
+            idxs_check = all(first.idxs == second.idxs)
+        else:
+            idxs_check = False
+
+        return value_check and count_check and dice_value_check and idxs_check
+
+
 class Score():
     def __init__(self, big=ScoreElement(0), triplet=ScoreElement(0),
                  ones=ScoreElement(0), fives=ScoreElement(0)):
@@ -83,6 +100,7 @@ def diceScore(hand: Hand):
     score.fives = singleScore(hand, 5)
 
     return score
+
 
 def singleScore(hand: Hand, dice_number):
     # single scores

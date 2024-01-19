@@ -10,6 +10,7 @@ class Dice():
     def roll(self):
         if not self.is_fixed:
             self.value = np.random.randint(1,6)
+        return self
 
     def fix(self):
         self.is_fixed = True
@@ -32,6 +33,11 @@ class Dice():
         if self.value < other:
             return True
         return False
+    
+    def __gt__(self,other):
+        if self.value > other:
+            return True
+        return False
 
     def __le__(self,other):
         if self.value <= other:
@@ -49,7 +55,4 @@ class Dice():
         return str(self.value)
     
     def __int__(self):
-        return self.value
-    
-    def __call__(self):
         return self.value
