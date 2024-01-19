@@ -54,9 +54,9 @@ class Hand():
     def count_list(self):
         return np.array([(self.dice_array == i).sum() for i in range(1,7)])
 
-    @property
-    def count_dict(self):
-        return {f"{i}": (self.dice_array == i).sum() for i in range(1,7)}
+    # @property
+    # def count_dict(self):
+    #     return {f"{i}": (self.dice_array == i).sum() for i in range(1,7)}
 
     @property
     def count_of_counts(self):
@@ -73,5 +73,5 @@ class Hand():
     def __str__(self):
         return str([str(d) for d in self.dice_list])
     
-    def __call__(self):
-        return self.dice_list
+    def __getitem__(self,item):
+        return self.dice_list[item]
