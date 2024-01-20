@@ -9,12 +9,13 @@ class Turn():
         self.roll_score = Score()
         self.score = []
         self.num_rolls = 0
+        self.has_hot_diced = False
     
     @property
     def totalScore(self):
         return sum(self.score)
     
-    def play(self, noroll=False, hot_dice_hand=[], roll_limit=10, future_noroll=False):
+    def play(self, noroll=False, hot_dice_hand=[], roll_limit=50, future_noroll=False):
         while not self.hand.keep_and_end:
             if not noroll:
                 # roll dice
@@ -65,6 +66,7 @@ class Turn():
         if self.hand.n_fixed == 6 and score > 0:
             # hot dice!
             # print(f"Hot Dice!, current score = {sum(self.score)+score}")
+            self.has_hot_diced = True
             self.hand.keep_and_end = False
             self.hand.unfix(range(0,6))
 
