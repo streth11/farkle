@@ -28,6 +28,6 @@ jobs:
       run: |
         pytest --cov farkle --cov-report term-missing
 
-    - name: black - formatting
-      run: |
-        black uobtheatre
+    # - name: black - formatting
+    #   run: |
+    #     black uobtheatre
