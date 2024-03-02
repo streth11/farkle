@@ -24,14 +24,9 @@ jobs:
     - name: Install dependencies
       run: pip install -r requirements.txt
 
-    # --ignore=./test/soak/
     - name: Tests
       run: |
-        pytest --cov farkle --ignore=./test/soak/
-
-    - name: Soak tests
-      run: |
-        pytest --cov -k ./test/soak/
+        pytest --cov farkle --cov-report term-missing
 
     - name: black - formatting
       run: |
