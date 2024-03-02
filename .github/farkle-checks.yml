@@ -1,0 +1,38 @@
+name: Farkle checks
+
+on:
+  push:
+    branches: [ main, dev ]
+  pull_request:
+    branches: [ main, dev ]
+
+jobs:
+  test and lint:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Checkout the code
+    - uses: actions/checkout@v2
+
+    # Setup python
+    - name: set up python 3.10
+      uses: actions/setup-python@v2
+      with:
+        python-version: "3.10"
+
+    # Install dependencies
+    - name: Install dependencies
+      run: pip install -r requirements.txt
+
+    # --ignore=./test/soak/
+    - name: Tests
+      run: |
+        pytest --cov farkle --ignore=./test/soak/
+
+    - name: Soak tests
+      run: |
+        pytest --cov -k ./test/soak/
+
+    - name: black - formatting
+      run: |
+        black uobtheatre

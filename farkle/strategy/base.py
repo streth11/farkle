@@ -82,7 +82,10 @@ class DefaultStrategy(Strategy):
         if self.roll_score.fives:
             fives_score = self.on5Score()
 
-        if prev_fixed + self.roll_score.ones.count + self.roll_score.fives.count >= self.END_ON_X_DICE:
+        if (
+            prev_fixed + self.roll_score.ones.count + self.roll_score.fives.count
+            >= self.END_ON_X_DICE
+        ):
             self.hand.keep_and_end = True
 
         return ones_score + fives_score

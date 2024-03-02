@@ -1,8 +1,6 @@
 from farkle.hand import Hand
 from farkle.scoring import Score
 from farkle.strategy.base import DefaultStrategy
-# from farkle.strategy.basic import EndOn4Strategy
-# from farkle.strategy import StrategyAA, BaseStrategy
 
 
 class Turn:
