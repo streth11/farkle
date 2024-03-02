@@ -1,7 +1,7 @@
 import numpy as np
 
 from farkle.hand import Hand
-from farkle.turn import TestTurn
+from farkle.utility import TestTurn
 from farkle.strategy.base import Strategy
 from farkle.strategy.basic import EndOn4Strategy, EndOn5Strategy
 

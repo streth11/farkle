@@ -1,6 +1,6 @@
 import numpy.random as R
 
-from farkle.turn import TestTurn
+from farkle.utility import TestTurn
 from farkle.hand import Hand
 from farkle.strategy.basic import LeaveTriplet2sStrategy
 

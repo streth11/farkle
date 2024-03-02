@@ -1,4 +1,4 @@
-from farkle.turn import TestTurn
+from farkle.utility import TestTurn
 from farkle.hand import Hand
 
 
