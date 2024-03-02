@@ -7,18 +7,18 @@ on:
     branches: [ main, dev ]
 
 jobs:
-  test and lint:
+  test-and-lint:
     runs-on: ubuntu-latest
 
     steps:
     # Checkout the code
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
 
     # Setup python
     - name: set up python 3.10
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v4
       with:
-        python-version: "3.10"
+        python-version: "3.10.11"
 
     # Install dependencies
     - name: Install dependencies
