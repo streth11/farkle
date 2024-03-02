@@ -3,7 +3,7 @@ import numpy as np
 from farkle.hand import Hand
 from farkle.turn import Turn
 from farkle.strategy.base import Strategy
-from farkle.strategy.basic import EndOn4Strategy, EndOn5Strategy
+from farkle.strategy.basic import EndOn4Strategy, EndOn5Strategy, LeaveTriplet2sStrategy
 
 
 def play_farkle(strategy: Strategy):
@@ -23,8 +23,10 @@ def run_strategy(n, strategy: Strategy, seed=None):
         score_list[i] = score
         hot_dices[i] = h_dice
 
-    print(hot_dices)
+    # print(hot_dices)
     print(score_list)
+
+    print(f"Strategy: {strategy}")
 
     mean_score = score_list.mean()
     print(f"Mean points: {mean_score:.4g}")
@@ -36,6 +38,7 @@ def run_strategy(n, strategy: Strategy, seed=None):
     prob_HD_given_score = (sum(hot_dices) / n) / (1 - farkle_prob)
     print(f"Prob hot dice given score: {prob_HD_given_score:.4g}")
     # hot_dice_scores = score_list[np.where(hot_dices*score_list > 0)]
+    print("")
 
     return score_list
 
@@ -43,6 +46,7 @@ def run_strategy(n, strategy: Strategy, seed=None):
 if __name__ == "__main__":
 
     seed = 257473
-    n = 100
-    run_strategy(n, strategy=EndOn4Strategy(), seed=seed)
+    n = 2000
     run_strategy(n, strategy=EndOn5Strategy(), seed=seed)
+    run_strategy(n, strategy=EndOn4Strategy(), seed=seed)
+    run_strategy(n, strategy=LeaveTriplet2sStrategy(), seed=seed)

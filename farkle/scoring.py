@@ -77,6 +77,10 @@ class Score:
         return [s.value for s in self.score_list]
 
     @property
+    def single_scoring_count(self):
+        return self.ones.count + self.fives.count
+
+    @property
     def total(self):
         return sum(self.score_value_list)
 

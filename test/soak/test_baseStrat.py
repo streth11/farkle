@@ -1,7 +1,7 @@
 import numpy as np
 
 from farkle.hand import Hand
-from farkle.turn import Turn
+from farkle.turn import TestTurn
 from farkle.strategy.base import Strategy
 from farkle.strategy.basic import EndOn4Strategy, EndOn5Strategy
 
@@ -10,7 +10,7 @@ N = 100
 
 
 def play_farkle(strategy: Strategy):
-    t = Turn(Hand(), strategy)
+    t = TestTurn(Hand(), strategy)
     score = t.play()
     return score, t.has_hot_diced
 

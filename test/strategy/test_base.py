@@ -20,3 +20,4 @@ def test_base_strategy():
     assert no == 0
     sing = s.onSingleScore()
     assert sing == 0
+    assert str(s) == "DummyStrategy"
