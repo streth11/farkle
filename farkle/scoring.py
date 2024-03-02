@@ -59,10 +59,6 @@ class Score:
                 scoring_arr[d] = True
         return scoring_arr
 
-    def farkle(self):
-        for s in self.score_list:
-            s.reset()
-
     def calcualteScore(self, hand):
         self.big = bigDiceScore(hand)
         if not self.big:

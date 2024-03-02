@@ -1,10 +1,12 @@
 from farkle.hand import Hand
 from farkle.scoring import Score
-from farkle.strategy import Strategy
+from farkle.strategy.base import DefaultStrategy
+# from farkle.strategy.basic import EndOn4Strategy
+# from farkle.strategy import StrategyAA, BaseStrategy
 
 
 class Turn:
-    def __init__(self, init_hand: Hand = Hand(), strategy=Strategy()) -> None:
+    def __init__(self, init_hand: Hand = Hand(), strategy=DefaultStrategy()) -> None:
         self.hand = init_hand
         self.__strategy = strategy
         self.roll_score = Score()
@@ -40,13 +42,12 @@ class Turn:
             self.score.append(saved_score)
 
         # print(self.hand)
-        # print(f"Turn ended, score = {sum(self.score)}")
-        total_score = sum(self.score)
-        return total_score
+        # print(f"Turn ended, score = {self.total_score}")
+        return self.total_score
 
     def executeStrategy(self):
         score = 0
-        self.__strategy.withUpdateScore(self.hand, self.roll_score)
+        self.__strategy.withUpdatedScore(self.hand, self.roll_score, self.total_score)
 
         if self.roll_score.total == 0:
             score += self.__strategy.onNoScore()

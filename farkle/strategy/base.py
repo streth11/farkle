@@ -4,19 +4,20 @@ from farkle.hand import Hand
 from farkle.scoring import Score
 
 
-class BaseStrategy(ABC):
+class Strategy(ABC):
     hand = None
     roll_score = Score()
+    current_turn_score = 0
 
     @classmethod
-    def withUpdateScore(cls, hand: Hand, roll_score: Score):
+    def withUpdatedScore(cls, hand: Hand, roll_score: Score, current_turn_score=0):
         cls.hand = hand
         cls.roll_score = roll_score
+        cls.current_turn_score = current_turn_score
         return cls
 
+    @abstractmethod
     def onNoScore(self):
-        self.hand.fix(range(0, 6))
-        self.hand.keep_and_end = True
         return 0
 
     @abstractmethod
@@ -52,11 +53,17 @@ class BaseStrategy(ABC):
         return 0
 
 
-class Strategy(BaseStrategy):
+class DefaultStrategy(Strategy):
+    END_ON_X_DICE = 5
+
+    def onNoScore(self):
+        self.hand.fix(range(0, 6))
+        self.hand.keep_and_end = True
+        return 0
 
     def onBigScore(self):
         self.hand.fix(self.roll_score.big.idxs)
-        if self.roll_score.big.count == 5:
+        if self.roll_score.big.count == self.END_ON_X_DICE:
             self.hand.keep_and_end = True
 
         return self.roll_score.big.value
@@ -75,7 +82,7 @@ class Strategy(BaseStrategy):
         if self.roll_score.fives:
             fives_score = self.on5Score()
 
-        if prev_fixed + self.roll_score.ones.count + self.roll_score.fives.count >= 5:
+        if prev_fixed + self.roll_score.ones.count + self.roll_score.fives.count >= self.END_ON_X_DICE:
             self.hand.keep_and_end = True
 
         return ones_score + fives_score
