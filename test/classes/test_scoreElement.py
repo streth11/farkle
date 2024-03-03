@@ -1,7 +1,8 @@
 import pytest
 import numpy as np
 
-from farkle.scoring import ScoreElement
+from farkle.scoring import ScoreElement, singleScore
+from farkle.hand import Hand
 
 
 def test_score_elem_initialise():
@@ -53,3 +54,17 @@ def test_compare():
     s1 = ScoreElement(1000, 6, [0, 1, 2, 3, 4], 4)
     s2 = ScoreElement(1000, 6, [0, 1, 2, 3, 5], 4)
     assert ScoreElement.compare(s1, s2) == False
+
+
+def test_singleScore():
+    s = singleScore(Hand([1, 1, 3, 4, 5, 6]), 1)
+    assert s.value == 200
+    assert all(s.idxs == [0, 1])
+    assert s.count == 2
+    assert s.dice_value == 1
+
+    s = singleScore(Hand([1, 1, 3, 4, 5, 6]), 5)
+    assert s.value == 50
+    assert all(s.idxs == [4])
+    assert s.count == 1
+    assert s.dice_value == 5

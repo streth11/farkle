@@ -18,14 +18,14 @@ class Turn:
 
     def play(self, roll_limit=50):
         while not self.hand.keep_and_end:
+            if self.num_rolls >= roll_limit:
+                # print(f"Roll Limit reached, score = {self.total_score}")
+                return self.total_score
+
             # roll dice
             self.hand.roll()
             self.num_rolls += 1
             self.hand.sortDice()
-
-            if self.num_rolls >= roll_limit:
-                print(f"Roll Limit reached, score = {sum(self.score)}")
-                return sum(self.score)
 
             # score and strategy
             self.roll_score.calcualteScore(self.hand)
@@ -66,4 +66,3 @@ class Turn:
             self.hand.unfix(range(0, 6))
 
         return score
-

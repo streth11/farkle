@@ -49,7 +49,7 @@ def test_EndOn5Strategy():
     mean_score, farkle_prob, mean_not_HD_score, prob_HD_given_score = run_strategy(
         N, strategy=EndOn5Strategy(), seed=SEED
     )
-    assert round(mean_score, 1) == 620.1
+    assert round(mean_score, 1) == 598.2
     assert farkle_prob == 0.43
-    assert round(mean_not_HD_score, 1) == 583.4
+    assert round(mean_not_HD_score, 1) == 552.5
     assert round(prob_HD_given_score, 4) == 0.4561

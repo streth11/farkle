@@ -1,5 +1,6 @@
 from farkle.turn import Turn
 
+
 class TestTurn(Turn):
     __test__ = False
 
