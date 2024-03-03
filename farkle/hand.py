@@ -15,6 +15,10 @@ class Hand:
     def dice_array(self):
         return np.array(self.dice_list)
 
+    @property
+    def avaliable_dice_array(self):
+        return np.array([d if not d.is_fixed else Dice(0) for d in self.dice_list])
+
     def roll(self):
         for d in self.dice_list:
             d.roll()

@@ -108,28 +108,28 @@ def diceScore(hand: Hand):
     return score
 
 
-def singleScore(hand: Hand, dice_number):
+def singleScore(hand: Hand, dice_number) -> ScoreElement:
     # single scores
     DICE_SCORES = [100, 0, 0, 0, 50, 0]
     dice_count = hand.avaliable_count_list[dice_number - 1]
     score_value = dice_count * DICE_SCORES[dice_number - 1]
-    scoring_idx = np.where(hand.dice_array == dice_number)[0]
+    scoring_idx = np.where(hand.avaliable_dice_array == dice_number)[0]
     return ScoreElement(score_value, dice_count, scoring_idx, dice_number)
 
 
-def tripletScore(hand: Hand):
+def tripletScore(hand: Hand) -> ScoreElement:
     DICE3_SCORES = [601, 200, 300, 400, 500, 600]
     if hand.n_fixed <= 3:
         if hand.avaliable_count_of_counts["3 of a kinds"] == 1:
             # 3 of a kind
             dice_num_3kind = (np.where(hand.avaliable_count_list == 3))[0][0] + 1
             score_value = DICE3_SCORES[dice_num_3kind - 1]
-            scoring_idx = np.where(hand.dice_array == dice_num_3kind)[0]
+            scoring_idx = np.where(hand.avaliable_dice_array == dice_num_3kind)[0]
             return ScoreElement(score_value, 3, scoring_idx, dice_num_3kind)
     return ScoreElement(0)
 
 
-def bigDiceScore(hand: Hand):
+def bigDiceScore(hand: Hand) -> ScoreElement:
     if hand.n_fixed == 0:
         # scores that use all 6 hand
         if all(hand.count_list == 1):
@@ -153,17 +153,17 @@ def bigDiceScore(hand: Hand):
             return ScoreElement(3000, 6, np.arange(0, 6), dice_num_6kind_idx)
 
     if hand.n_fixed <= 1:
-        if hand.count_of_counts["5 of a kinds"] == 1:
+        if hand.avaliable_count_of_counts["5 of a kinds"] == 1:
             # 5 of a kind
-            dice_num_5kind = (np.where(hand.count_list == 5))[0][0] + 1
-            scoring_idx = np.where(hand.dice_array == dice_num_5kind)[0]
+            dice_num_5kind = (np.where(hand.avaliable_count_list == 5))[0][0] + 1
+            scoring_idx = np.where(hand.avaliable_dice_array == dice_num_5kind)[0]
             return ScoreElement(2000, 5, scoring_idx, dice_num_5kind)
 
     if hand.n_fixed <= 2:
-        if hand.count_of_counts["4 of a kinds"] == 1:
+        if hand.avaliable_count_of_counts["4 of a kinds"] == 1:
             # 4 of a kind
-            dice_num_4kind = (np.where(hand.count_list == 4))[0][0] + 1
-            scoring_idx = np.where(hand.dice_array == dice_num_4kind)[0]
+            dice_num_4kind = (np.where(hand.avaliable_count_list == 4))[0][0] + 1
+            scoring_idx = np.where(hand.avaliable_dice_array == dice_num_4kind)[0]
             return ScoreElement(1500, 4, scoring_idx, dice_num_4kind)
 
     return ScoreElement(0)
