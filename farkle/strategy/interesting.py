@@ -55,19 +55,15 @@ class RerollForTripletsFill(DefaultStrategy):
         if self.roll_score.ones:
             n_ones = self.roll_score.ones.count
             n_take = takeNsingle(prev_fixed, n_ones)
-            if n_take == n_ones:
-                ones_score = super().on1Score()
-            else:
-                ones_score = int((self.roll_score.ones.value / n_ones) * n_take)
-                self.hand.fix(self.roll_score.ones.idxs[:n_take])
+
+            ones_score = int((self.roll_score.ones.value / n_ones) * n_take)
+            self.hand.fix(self.roll_score.ones.idxs[:n_take])
 
         if self.roll_score.fives:
             n_fives = self.roll_score.fives.count
             n_take = takeNsingle(self.hand.n_fixed, n_fives)
-            if n_take == n_fives:
-                fives_score = super().on5Score()  # never hit!
-            else:
-                fives_score = int((self.roll_score.fives.value / n_fives) * n_take)
-                self.hand.fix(self.roll_score.fives.idxs[:n_take])
+
+            fives_score = int((self.roll_score.fives.value / n_fives) * n_take)
+            self.hand.fix(self.roll_score.fives.idxs[:n_take])
 
         return ones_score + fives_score
