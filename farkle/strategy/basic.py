@@ -23,6 +23,4 @@ class LeaveTriplet2sStrategy(EndOn4Strategy):
             # do not take triple
             return 0
 
-        self.hand.fix(self.roll_score.triplet.idxs)
-
-        return self.roll_score.triplet.value
+        return super().onTripletScore()
