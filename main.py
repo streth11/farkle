@@ -1,4 +1,5 @@
 import numpy as np
+import time
 
 from farkle.hand import Hand
 from farkle.turn import Turn
@@ -49,9 +50,11 @@ def run_strategy(n, strategy: Strategy=DefaultStrategy(), seed=None, **kwargs):
 if __name__ == "__main__":
 
     seed = 257473
-    n = 2000
-
+    n = 200
+    t1 = time.process_time()
     run_strategy(n, seed=seed, roll_limit=1)
+    print(f"Time taken = {time.process_time()-t1}")
+
     run_strategy(n, strategy=EndOn5Strategy(), seed=seed)
     run_strategy(n, strategy=EndOn4Strategy(), seed=seed)
     run_strategy(n, strategy=LeaveTriplet2sStrategy(), seed=seed)

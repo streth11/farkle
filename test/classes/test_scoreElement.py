@@ -57,13 +57,13 @@ def test_compare():
 
 
 def test_singleScore():
-    s = singleScore(Hand([1, 1, 3, 4, 5, 6]), 1)
+    s = singleScore(Hand([1, 1, 3, 4, 5, 6]).sortDice(), 1)
     assert s.value == 200
     assert all(s.idxs == [0, 1])
     assert s.count == 2
     assert s.dice_value == 1
 
-    s = singleScore(Hand([1, 1, 3, 4, 5, 6]), 5)
+    s = singleScore(Hand([1, 1, 3, 4, 5, 6]).sortDice(), 5)
     assert s.value == 50
     assert all(s.idxs == [4])
     assert s.count == 1
