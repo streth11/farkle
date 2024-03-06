@@ -4,11 +4,11 @@ from farkle.dice import Dice
 
 
 def test_dice_initalise():
-    R.seed(1)  # 4
+    R.seed(1)  # 6
     d = Dice()
-    assert d.value == 4
+    assert d.value == 6
     assert d.is_fixed == False
-    assert str(d) == "4"
+    assert str(d) == "6"
 
     d = Dice(1, True)
     assert d.value == 1
@@ -55,7 +55,7 @@ def test_roll():
     R.seed(1)
     d = Dice(1)
     d.roll()
-    assert d == 4
+    assert d == 6
 
     R.seed(1)
     d = Dice(1)

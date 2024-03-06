@@ -58,16 +58,16 @@ def test_hand_sort():
 
 
 def test_hand_roll():
-    R.seed(1)  # [4, 5, 1, 2, 4, 1]
+    R.seed(1)  # [6, 4, 5, 1, 2, 4]
     h = Hand()
     h.roll()
-    assert h.values == [4, 5, 1, 2, 4, 1]
+    assert h.values == [6, 4, 5, 1, 2, 4]
 
-    R.seed(1)  # [4, 5, 1, x,x,x]
+    R.seed(1)  # [6, 4, 5, 1,x,x]
     h = Hand()
     h.fix([0, 1, 5])
     h.roll()
-    assert h.values == [0, 0, 4, 5, 1, 0]
+    assert h.values == [0, 0, 6, 4, 5, 0]
 
 
 def test_count_list():

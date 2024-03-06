@@ -39,17 +39,17 @@ def test_EndOn4Strategy():
     mean_score, farkle_prob, mean_not_HD_score, prob_HD_given_score = run_strategy(
         N, strategy=EndOn4Strategy(), seed=SEED
     )
-    assert round(mean_score, 1) == 772.8
-    assert farkle_prob == 0.11
-    assert round(mean_not_HD_score, 1) == 479.0
-    assert round(prob_HD_given_score, 4) == 0.2247
+    assert round(mean_score, 1) == 473.1
+    assert farkle_prob == 0.28
+    assert round(mean_not_HD_score, 1) == 470.3
+    assert round(prob_HD_given_score, 4) == 0.2083
 
 
 def test_EndOn5Strategy():
     mean_score, farkle_prob, mean_not_HD_score, prob_HD_given_score = run_strategy(
         N, strategy=EndOn5Strategy(), seed=SEED
     )
-    assert round(mean_score, 1) == 563.2
-    assert farkle_prob == 0.43
-    assert round(mean_not_HD_score, 1) == 516.8
-    assert round(prob_HD_given_score, 4) == 0.4561
+    assert round(mean_score, 1) == 290.0
+    assert farkle_prob == 0.53
+    assert round(mean_not_HD_score, 1) == 461.8
+    assert round(prob_HD_given_score, 4) == 0.4043

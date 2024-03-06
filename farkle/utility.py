@@ -21,13 +21,13 @@ class TestTurn(Turn):
 
             self.num_rolls += 1
             self.hand.sortDice()
-            # print("pre-strat:" + str(self.hand))
+            print("pre-strat:" + str(self.hand))
 
             self.roll_score.calcualteScore(self.hand)
             saved_score = self.executeStrategy()
 
             self.score.append(saved_score)
-            # print("post-strat:" + str(self.hand))
+            print("post-strat:" + str(self.hand))
             # print("")
 
         # print(f"Turn ended, score = {self.total_score}")
