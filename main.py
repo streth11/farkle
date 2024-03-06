@@ -22,7 +22,7 @@ def run_strategy(n, strategy: Strategy=DefaultStrategy(), seed=None, **kwargs):
 
     score_list = np.zeros(n)
     hot_dices = np.zeros(n)
-    for i in range(0, n - 1):
+    for i in range(0, n):
         score, h_dice = play_farkle(strategy, **kwargs)
         score_list[i] = score
         hot_dices[i] = h_dice

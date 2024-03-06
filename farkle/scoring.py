@@ -164,6 +164,6 @@ def bigDiceScore(hand: Hand) -> ScoreElement:
             # 4 of a kind
             dice_num_4kind = (np.where(hand.avaliable_count_list == 4))[0][0] + 1
             scoring_idx = np.where(hand.avaliable_dice_array == dice_num_4kind)[0]
-            return ScoreElement(1500, 4, scoring_idx, dice_num_4kind)
+            return ScoreElement(1000, 4, scoring_idx, dice_num_4kind)
 
     return ScoreElement(0)
