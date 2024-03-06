@@ -10,7 +10,7 @@ class Dice:
 
     def roll(self):
         if not self.is_fixed:
-            self.value = np.random.randint(1, 6+1)
+            self.value = np.random.randint(1, 6 + 1)
         return self
 
     def fix(self):

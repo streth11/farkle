@@ -4,7 +4,7 @@ import time
 from farkle.hand import Hand
 from farkle.turn import Turn
 from farkle.strategy.base import Strategy,DefaultStrategy
-from farkle.strategy.basic import EndOn4Strategy, EndOn5Strategy, LeaveTriplet2sStrategy
+from farkle.strategy.basic import EndOn4Strategy, EndOn5Strategy, LeaveTriplet2sStrategy, SingleRoll
 from farkle.strategy.interesting import EndOn45ScoreDep, RerollForTripletsMax1, RerollForTripletsFill
 
 class BestStrategy(RerollForTripletsMax1, LeaveTriplet2sStrategy, EndOn4Strategy):
@@ -50,15 +50,14 @@ def run_strategy(n, strategy: Strategy=DefaultStrategy(), seed=None, **kwargs):
 if __name__ == "__main__":
 
     seed = 257473
-    n = 200
-    t1 = time.process_time()
-    run_strategy(n, seed=seed, roll_limit=1)
-    print(f"Time taken = {time.process_time()-t1}")
+    n = 2000
+    # t1 = time.process_time()
+    # run_strategy(n, roll_limit=1, seed=seed)
+    # print(f"Time taken = {time.process_time()-t1}")
 
+    run_strategy(n, strategy=SingleRoll(), seed=seed)
     run_strategy(n, strategy=EndOn5Strategy(), seed=seed)
     run_strategy(n, strategy=EndOn4Strategy(), seed=seed)
     run_strategy(n, strategy=LeaveTriplet2sStrategy(), seed=seed)
-    # run_strategy(n, strategy=EndOn45ScoreDep(), seed=seed)
     run_strategy(n, strategy=RerollForTripletsMax1(), seed=seed)
-    run_strategy(n, strategy=RerollForTripletsFill(), seed=seed)
     run_strategy(n, strategy=BestStrategy(), seed=seed)

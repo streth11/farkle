@@ -38,7 +38,9 @@ class Turn:
 
     def executeStrategy(self):
         score = 0
-        self.__strategy.withUpdatedScore(self.hand, self.roll_score, self.total_score)
+        self.__strategy.withUpdatedScore(
+            self.hand, self.roll_score, self.total_score, self.num_rolls
+        )
 
         if self.roll_score.total == 0:
             score += self.__strategy.onNoScore()
@@ -65,4 +67,6 @@ class Turn:
             self.hand.keep_and_end = False
             self.hand.unfix(range(0, 6))
 
+        self.__strategy.postScoreFcn()
+            
         return score

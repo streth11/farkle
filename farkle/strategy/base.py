@@ -8,12 +8,16 @@ class Strategy(ABC):
     hand = None
     roll_score = Score()
     current_turn_score = 0
+    num_rolls = 0
 
     @classmethod
-    def withUpdatedScore(cls, hand: Hand, roll_score: Score, current_turn_score=0):
+    def withUpdatedScore(
+        cls, hand: Hand, roll_score: Score, current_turn_score=0, num_rolls=0
+    ):
         cls.hand = hand
         cls.roll_score = roll_score
         cls.current_turn_score = current_turn_score
+        cls.nnum_rolls = num_rolls
         return cls
 
     @abstractmethod
@@ -51,6 +55,10 @@ class Strategy(ABC):
     @abstractmethod
     def onSingleScore(self):
         return 0
+    
+    @abstractmethod
+    def postScoreFcn(self):
+        pass
 
     def __str__(self):
         return self.__class__.__name__
@@ -97,3 +105,6 @@ class DefaultStrategy(Strategy):
     def on1Score(self):
         self.hand.fix(self.roll_score.ones.idxs)
         return self.roll_score.ones.value
+
+    def postScoreFcn(self):
+        pass

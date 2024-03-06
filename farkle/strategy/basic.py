@@ -1,5 +1,8 @@
 from farkle.strategy.base import DefaultStrategy
 
+class SingleRoll(DefaultStrategy):
+    def postScoreFcn(self):
+        self.hand.keep_and_end = True
 
 class EndOn5Strategy(DefaultStrategy):
     END_ON_X_DICE = 5
