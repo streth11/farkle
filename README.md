@@ -31,5 +31,5 @@ Strategy: RerollForTripletsFill
 - Probability Farkle: 0.5085
 
 Strategy: CombinationStrategy (EndOn4Strategy, RerollForTripletsMax1, LeaveTriplet2sStrategy)
-Mean points: 492.9
-Probability Farkle: 0.341
+- Mean points: 492.9
+- Probability Farkle: 0.341
